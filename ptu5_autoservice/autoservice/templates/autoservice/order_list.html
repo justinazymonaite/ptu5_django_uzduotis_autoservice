@@ -1,0 +1,11 @@
+{% extends 'autoservice/base.html' %}
+{% block title %}Orders in {{ block.super }}{% endblock title %}
+{% block content %}
+    <h1>{{ orders_count}} 
+        Orders</h1>
+    <ul>
+        {% for order in order_list %}
+            <li><a href="{% url 'order' order.pk %}">{{ order.order_date }}, {{ order.total_amount }}</a>, {{ order.car.license_plate_number }}, {{ order.car.client }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

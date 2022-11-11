@@ -1,0 +1,13 @@
+{% extends 'autoservice/base.html' %}
+{% block title %}{{ object }}{% endblock title %}
+{% block content %}
+    <h1>{{ object.order.order_date }}, {{ object.order.total_amount }}</h1>
+    <p>Client: {{object.order.car.client}}</p>
+    <p>Car: {{object.order.car}}</p>
+    <p>Order date: {{object.order.order_date}}</p>
+    <p>Total amount: {{object.order.total_amount}}</p>
+    <p>Services: 
+        {% for order_line in object.order.order_lines.all %}
+            <ul> {{ order_line }} </ul>
+        {% endfor%}</p>
+{% endblock content %}
