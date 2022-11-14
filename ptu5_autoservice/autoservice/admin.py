@@ -16,7 +16,7 @@ class CarAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('order_date', )
-    list_display = ('car', 'total_amount' )
+    list_display = ('id', 'car', 'order_date', 'total_amount' )
     inlines = (OrderLineInline, )
 
 class ServiceAdmin(admin.ModelAdmin):

@@ -56,3 +56,42 @@ footer .container {
     display: flex;
     align-content: stretch;
 }
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 0.25rem 1rem;
+}
+
+ul li a {
+    color:rgb(43, 41, 46)
+}
+
+ul li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+ul.car_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+ul li.car {
+    flex-basis: 5rem;
+    border: 1px solid rgb(47, 47, 61);
+    background-color:  rgba(255, 255, 255, 0.2);
+    padding: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul.car_list li.car h3 {
+    margin-top: 0;
+}

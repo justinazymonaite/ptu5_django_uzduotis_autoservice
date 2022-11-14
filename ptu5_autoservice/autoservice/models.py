@@ -35,6 +35,7 @@ class Car(models.Model):
     vin_code = models.CharField('vin code', max_length=17)
     client = models.CharField('client name', max_length=200)
     car_model = models.ForeignKey(CarModel, on_delete=models.CASCADE, verbose_name='car model', related_name='cars')
+    photo = models.ImageField("photo", upload_to='photos', blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.car_model.make} {self.car_model.model} {self.license_plate_number}, {self.vin_code}, {self.client}"
@@ -88,3 +89,7 @@ class OrderLine(models.Model):
     @property
     def total(self):
         return self.amount * self.price
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.order.save()

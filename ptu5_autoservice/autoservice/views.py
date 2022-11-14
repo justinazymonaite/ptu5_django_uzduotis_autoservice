@@ -29,6 +29,7 @@ def car_info(request, car_id):
 
 class OrderListView(ListView):
     model = Order
+    # paginate_by = 1
     template_name = 'autoservice/order_list.html'
 
     def get_queryset(self):
