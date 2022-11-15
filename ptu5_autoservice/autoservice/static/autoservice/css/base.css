@@ -8,6 +8,21 @@ body {
     min-height: 100vh;
 }
 
+header .container {
+    display: flex;
+    flex-direction: row;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+header .container span {
+    align-self: center;
+    color: rgb(0, 0, 0);
+    padding: 0.5rem;
+}
+
 header {
     background-color: rgb(75, 75, 75);
 }
@@ -94,4 +109,12 @@ img {
 
 ul.car_list li.car h3 {
     margin-top: 0;
+}
+
+table {
+    margin: 0.5rem 1rem;
+}
+
+.form_error { 
+    color: rgb(184, 35, 35);
 }
