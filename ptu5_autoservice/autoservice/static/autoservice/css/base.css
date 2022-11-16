@@ -118,3 +118,35 @@ table {
 .form_error { 
     color: rgb(184, 35, 35);
 }
+
+.table_grid {
+    display: grid;
+    padding: 0.5rem;
+}
+
+.my_orders_table {
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+}
+
+.table_grid_cell {
+    display: inline-block;
+    align-self: stretch;
+    justify-self: stretch;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem;
+    border-bottom: 1px solid rgb(72, 72, 72);
+}
+
+.center {
+    text-align: center;
+}
+
+.dark {
+    background-color: rgb(59, 59, 66);
+    color: white;
+}
+
+.overdue {
+    color: rgb(184, 35, 35);
+    font-weight: bold;
+}

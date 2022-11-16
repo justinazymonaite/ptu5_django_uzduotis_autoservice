@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from . models import Car, Order, Service, CarModel, OrderLine
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     # return HttpResponse("Welcome!")
@@ -65,3 +66,13 @@ class OrderDetailView(DetailView):
         if order_id:
             context['genre'] = get_object_or_404(Order, id=order_id)
         return context
+
+class UserOrderListView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'autoservice/user_order_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(owner=self.request.user).order_by('due_back')
+        return queryset

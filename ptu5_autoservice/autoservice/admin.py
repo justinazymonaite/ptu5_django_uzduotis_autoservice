@@ -15,9 +15,10 @@ class CarAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    readonly_fields = ('order_date', )
-    list_display = ('id', 'car', 'order_date', 'total_amount' )
+    readonly_fields = ('order_date', 'is_overdue')
+    list_display = ('id', 'car', 'order_date', 'due_back', 'total_amount', 'owner')
     inlines = (OrderLineInline, )
+    list_editable = ('due_back', 'owner')
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('title', 'price')

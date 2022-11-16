@@ -1,5 +1,8 @@
 from django.db import models
 from datetime import date
+from django.contrib.auth import get_user_model
+from django.utils.timezone import datetime
+from tinymce.models import HTMLField
 
 class CarModel(models.Model):
     YEAR_CHOICES = ((year, str(year)) for year in reversed(range(1899, date.today().year+1)))
@@ -7,6 +10,7 @@ class CarModel(models.Model):
     model = models.CharField('model', max_length=50)
     year = models.IntegerField('year', choices=YEAR_CHOICES)
     engine = models.CharField('engine', max_length=50)
+    summary = HTMLField('summary',  max_length=1000, default="-")
 
     def __str__(self):
         return f"{self.make} {self.model} ({self.year}), {self.engine}"
@@ -36,6 +40,7 @@ class Car(models.Model):
     client = models.CharField('client name', max_length=200)
     car_model = models.ForeignKey(CarModel, on_delete=models.CASCADE, verbose_name='car model', related_name='cars')
     photo = models.ImageField("photo", upload_to='photos', blank=True, null=True)
+    description = HTMLField('description',  max_length=1000, blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.car_model.make} {self.car_model.model} {self.license_plate_number}, {self.vin_code}, {self.client}"
@@ -53,6 +58,14 @@ class Order(models.Model):
     order_date = models.DateTimeField('order date', auto_now_add=True, editable=False)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='orders')
     total_amount = models.DecimalField('total amount', max_digits=18, decimal_places=2, default=0)
+    due_back = models.DateField('due back', null=True, blank=True)
+    owner = models.ForeignKey(get_user_model(), verbose_name="owner", on_delete=models.SET_NULL, null=True, blank=True)
+    
+    @property
+    def is_overdue(self):
+        if self.due_back and self.due_back < datetime.date(datetime.now()):
+            return True
+        return False
 
     def __str__(self) -> str:
         return f" {self.car}: {self.total_amount}, {self.order_date}"
