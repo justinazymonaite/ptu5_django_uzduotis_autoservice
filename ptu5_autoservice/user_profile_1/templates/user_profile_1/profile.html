@@ -1,4 +1,5 @@
 {% extends 'autoservice/base.html' %}
+{% load static %}
 {% block title %}{{ block.super }} {{ user }} profile{% endblock title %}
 {% block content %}
 <h1>{{ user }} profile</h1>
@@ -6,6 +7,8 @@
     {% if user.profile and user.profile.photo %}
     <div>
         <img src="{{ user.profile.photo.url }}" class="user-profile-photo">
+    {% else %}
+        <img src="{% static 'autoservice/img/defaultphoto.jpg' %}">
     </div>
     {% endif %}
     <div class="spacer">
