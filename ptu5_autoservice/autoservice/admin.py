@@ -28,9 +28,13 @@ class OrderLineAdmin(admin.ModelAdmin):
     ordering = ('order', 'id')
     list_filter = ('order', )
 
+class OrderReviewAdmin(admin.ModelAdmin):
+    list_display = ('order', 'reviewer', 'created_at')
+
 admin.site.register(models.CarModel)
 admin.site.register(models.Service, ServiceAdmin)
 admin.site.register(models.Car, CarAdmin)
 admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.OrderLine, OrderLineAdmin)
+admin.site.register(models.OrderReview, OrderReviewAdmin)
 

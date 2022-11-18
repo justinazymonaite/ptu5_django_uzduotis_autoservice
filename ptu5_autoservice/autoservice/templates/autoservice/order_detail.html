@@ -1,13 +1,33 @@
 {% extends 'autoservice/base.html' %}
-{% block title %}{{ object }}{% endblock title %}
+{% block title %}Order {{ object }} in {{ block.super }}{% endblock title %}
 {% block content %}
-    <h1>{{ object.order.order_date }}, {{ object.order.total_amount }}</h1>
-    <p>Client: {{object.order.car.client}}</p>
-    <p>Car: {{object.order.car}}</p>
-    <p>Order date: {{object.order.order_date}}</p>
-    <p>Total amount: {{object.order.total_amount}}</p>
-    <p>Services: 
-        {% for order_line in object.order.order_lines.all %}
-            <ul> {{ order_line }} </ul>
-        {% endfor%}</p>
+<h1>Order #{{ object.id }}</h1>
+<p>Date: {{ object.order_date }}</p>
+<p>Status: {{ object.get_status_display }}, estimated: {{ object.due_back }}</p>
+<p>Car: {{ object.car }}</p>
+<p>Total price: {{ object.total_amount }} €</p>
+<ul>
+    {% for line in object.order_lines.all %}
+        <li>{{ line }}</li>
+    {% endfor %}
+</ul>
+<h2>Comments</h2>
+{% if user.is_authenticated %}
+    <div class='review_form'>
+        <p>Please leave a comment about your own order.</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <p><button type="submit">Post comment</button></p>
+        </form>
+    </div>
+{% endif %}
+{% if order.reviews %}
+    {% for review in order.reviews.all %}
+        <div class='order_review'>
+            <h4>{{ review.reviewer }}<span class='float_right'>{{ review.created_at }}</span></h4>
+            <p>{{ review.content }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock content %}

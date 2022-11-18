@@ -149,7 +149,7 @@ table {
     justify-self: stretch;
     background-color: rgba(255, 255, 255, 0.2);
     padding: 0.5rem;
-    border-bottom: 1px solid rgb(72, 72, 72);
+    border-bottom: 1px solid rgb(47, 47, 61);
 }
 
 .center {
@@ -176,4 +176,23 @@ table {
 
 .alert-success {
     color: rgb(28, 149, 56);
+}
+
+.float_right {
+    float: right
+}
+
+.order_review {
+    display: block;
+    padding: 0.5rem 1rem;
+    margin: 0;
+}
+
+.review_form label {
+    display: none;
+}
+
+.review_form {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 3px solid rgb(47, 47, 61);
 }

@@ -10,7 +10,6 @@ class CarModel(models.Model):
     model = models.CharField('model', max_length=50)
     year = models.IntegerField('year', choices=YEAR_CHOICES)
     engine = models.CharField('engine', max_length=50)
-    summary = HTMLField('summary',  max_length=1000, default="-")
 
     def __str__(self):
         return f"{self.make} {self.model} ({self.year}), {self.engine}"
@@ -45,21 +44,27 @@ class Car(models.Model):
     def __str__(self) -> str:
         return f"{self.car_model.make} {self.car_model.model} {self.license_plate_number}, {self.vin_code}, {self.client}"
 
-    def display_car_model(self) -> str:
-        return ', '.join(car_model.make for car_model in self.car_model.all())
-    display_car_model.short_description = 'car model(s)'
-
     class Meta:
         verbose_name = 'Car'
         verbose_name_plural = 'Cars' 
 
 
 class Order(models.Model):
+    STATUS_CHOICES = (
+        ('n', 'new'),
+        ('a', 'advance payment taken'),
+        ('o', 'ordered parts'),
+        ('w', 'working'),
+        ('d', 'done'),
+        ('c', 'cancelled'),
+        ('p', 'paid'),
+    )
     order_date = models.DateTimeField('order date', auto_now_add=True, editable=False)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='orders')
     total_amount = models.DecimalField('total amount', max_digits=18, decimal_places=2, default=0)
     due_back = models.DateField('due back', null=True, blank=True)
     owner = models.ForeignKey(get_user_model(), verbose_name="owner", on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField("status", max_length=1, choices=STATUS_CHOICES, default='n')
     
     @property
     def is_overdue(self):
@@ -70,10 +75,6 @@ class Order(models.Model):
     def __str__(self) -> str:
         return f" {self.car}: {self.total_amount}, {self.order_date}"
 
-    def display_car(self) -> str:
-        return ', '.join(car.license_plate_number for car in self.car.all())
-    display_car.short_description = 'car(s)'
-
     def get_total(self):
         total = 0
         for line in self.order_lines.all():
@@ -81,7 +82,8 @@ class Order(models.Model):
         return total
     
     def save(self, *args, **kwargs):
-        self.total = self.get_total()
+        if not self._state.adding:
+            self.total_amount = self.get_total()
         super().save(*args, **kwargs)
 
     class Meta:
@@ -106,3 +108,15 @@ class OrderLine(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.order.save()
+
+class OrderReview(models.Model):
+    order = models.ForeignKey(Order, verbose_name="order", on_delete=models.CASCADE, related_name='reviews')
+    reviewer = models.ForeignKey(get_user_model(), verbose_name='reviewer', on_delete=models.CASCADE, related_name='order_reviews')
+    created_at = models.DateTimeField("created at", auto_now_add=True)
+    content = models.TextField("content", max_length=2000)
+
+    class Meta:
+        ordering = ('-created_at',)
+
+    def __str__(self) -> str:
+        return f"{self.reviewer} on {self.order} at {self.created_at}"

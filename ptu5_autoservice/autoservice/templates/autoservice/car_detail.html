@@ -1,0 +1,12 @@
+{% extends 'autoservice/base.html' %}
+{% block title %}{{ object }}{{ block.super }}{% endblock title %}
+{% block content %}
+    <h1>Car info:</h1>
+    <p>Owner: {{object.client}}</p>
+    <p>Car Model: {{object.car_model}}</p>
+    <p>License Plate Number: {{object.license_plate_number}}</p>
+    <p>VIN Code: {{object.vin_code}}</p>
+    <div class='description'>
+        {{ object.description|safe }}
+    </div>
+{% endblock content %}
