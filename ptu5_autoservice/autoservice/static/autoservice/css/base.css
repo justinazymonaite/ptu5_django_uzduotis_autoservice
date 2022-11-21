@@ -135,8 +135,8 @@ table {
     padding: 0.5rem;
 }
 
-.form_grid input {
-    width: 30%;
+.form_grid input [type="text"], .form_grid input [type="email"], .form_grid input [type="password"] {
+    width: 50%;
 }
 
 .my_orders_table {
@@ -207,4 +207,24 @@ table {
 .flex-profile {
     display: flex;
     place-items: stretch stretch;
+}
+
+.button {
+    background-color: rgb(139, 139, 139);
+    color:rgb(47, 47, 61) ;
+    border-bottom: 1px solid rgb(47, 47, 61);
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    text-decoration: none;
+}
+
+.button:hover{
+    background-color: rgb(255, 255, 255);
+}
+
+h1 img {
+    max-height: 2.75rem;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+    float: left;
 }

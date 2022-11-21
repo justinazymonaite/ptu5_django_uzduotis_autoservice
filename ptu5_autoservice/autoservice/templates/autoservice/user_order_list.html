@@ -1,7 +1,12 @@
 {% extends 'autoservice/base.html' %}
 {% block title %} My Orders in {{ block.super }}{% endblock title %}
 {% block content %}
-    <h1>My Orders</h1>
+    <h1>My Orders
+        {% if user.profile.photo %}
+            <img src="{{ user.profile.photo.url }}">
+        {% endif %}
+    </h1>
+
     <div class="table_grid my_orders_table">
         <div class="table_grid_cell dark">License plate number</div>
         <div class="table_grid_cell center dark">Order date</div>
