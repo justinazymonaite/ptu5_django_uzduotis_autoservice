@@ -8,6 +8,7 @@ from . forms import OrderReviewForm, UserOrderForm, UserOrderUpdateForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.utils.translation import gettext_lazy as _
 
 def index(request):
     # return HttpResponse("Welcome!")
@@ -86,7 +87,7 @@ class OrderDetailView(FormMixin, DetailView):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            messages.error(self.request, "You're posting too much!")
+            messages.error(self.request, _("You're posting too much!"))
             return self.form_invalid(form)
 
     def get_initial(self):
@@ -99,7 +100,7 @@ class OrderDetailView(FormMixin, DetailView):
         form.instance.order = self.get_object()
         form.instance.reviewer = self.request.user
         form.save()
-        messages.success(self.request, "Your review has been posted.")
+        messages.success(self.request, _("Your review has been posted."))
         return super().form_valid(form)
 
 
@@ -135,7 +136,7 @@ class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         form.instance.status = 'n'
-        messages.success(self.request, "Order updated.")
+        messages.success(self.request, _("Order updated."))
         return super().form_valid(form)
 
     def test_func(self):
@@ -145,9 +146,9 @@ class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.get_object().status == 'n':
-            context['action'] = 'Update'
+            context['action'] = _('Update')
         else:
-            context['action'] = 'Create'
+            context['action'] = _('Create')
         return context
 
 
@@ -161,5 +162,5 @@ class UserOrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == order.owner
 
     def form_valid(self, form):
-        messages.success(self.request, "Order canceled.")
+        messages.success(self.request, _("Order canceled."))
         return super().form_valid(form)     

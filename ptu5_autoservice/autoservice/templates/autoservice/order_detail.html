@@ -1,24 +1,25 @@
 {% extends 'autoservice/base.html' %}
-{% block title %}Order {{ object }} in {{ block.super }}{% endblock title %}
+{% load i18n %}
+{% block title %}{% trans "Order" %} {{ object }} {% trans "in" %} {{ block.super }}{% endblock title %}
 {% block content %}
-<h1>Order #{{ object.id }}</h1>
-<p>Date: {{ object.order_date }}</p>
-<p>Status: {{ object.get_status_display }}, estimated: {{ object.due_back }}</p>
-<p>Car: {{ object.car }}</p>
-<p>Total price: {{ object.total_amount }} €</p>
+<h1>{% trans "Order #" %}{{ object.id }}</h1>
+<p>{% trans "Date:" %} {{ object.order_date }}</p>
+<p>{% trans "Status:" %} {{ object.get_status_display }}, {% trans "estimated:" %} {{ object.due_back }}</p>
+<p>{% trans "Car:" %} {{ object.car }}</p>
+<p>{% trans "Total price:" %} {{ object.total_amount }} €</p>
 <ul>
     {% for line in object.order_lines.all %}
         <li>{{ line }}</li>
     {% endfor %}
 </ul>
-<h2>Comments</h2>
+<h2>{% trans "Comments" %}</h2>
 {% if user.is_authenticated %}
     <div class='review_form'>
-        <p>Please leave a comment about your own order.</p>
+        <p>{% trans "Please leave a comment about your own order." %}</p>
         <form action="" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <p><button type="submit">Post comment</button></p>
+            <p><button type="submit">{% trans "Post comment" %}</button></p>
         </form>
     </div>
 {% endif %}
