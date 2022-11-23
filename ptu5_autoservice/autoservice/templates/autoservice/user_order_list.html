@@ -6,17 +6,25 @@
             <img src="{{ user.profile.photo.url }}">
         {% endif %}
     </h1>
-
+    <p><a class="button" href="{% url 'user_create_new_order' %}">Create new order</a></p>
     <div class="table_grid my_orders_table">
         <div class="table_grid_cell dark">License plate number</div>
         <div class="table_grid_cell center dark">Order date</div>
         <div class="table_grid_cell center dark">Due Date</div>
         <div class="table_grid_cell center dark">Total amount</div>
+        <div class="table_grid_cell center dark">Actions</div>
         {% for order in order_list %}
             <div class="table_grid_cell">{{ order.car.license_plate_number }}</div>
             <div class="table_grid_cell center">{{ order.order_date }}</div>
             <div class="table_grid_cell center{% if order.is_overdue %} overdue{% endif %}">{{ order.due_back }}</div>
             <div class="table_grid_cell center">{{ order.total_amount }}</div>
+            <div class="table_grid_cell center">
+                {% if order.status == "n" %}
+                <a class="button" href="{% url 'user_update_order' order.pk%}">Update</a>
+                <a class="button" href="{% url 'user_delete_order' order.pk%}">Cancel</a>
+                {% endif %}
+            </div>
+
         {% endfor %}
     </div>
 {% endblock content %}

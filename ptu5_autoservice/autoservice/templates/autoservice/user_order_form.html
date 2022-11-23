@@ -1,0 +1,10 @@
+{% extends 'autoservice/base.html' %}
+{% block title %}Creating new order in {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>{% if action %}{{ action }}{% else %}Create new{% endif %}   order</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><button type="submit">{% if action %}{{ action }}{% else %}Create{% endif %}</button></p>
+    </form>
+{% endblock content %}

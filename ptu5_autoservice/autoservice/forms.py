@@ -1,5 +1,5 @@
 from django import forms 
-from . models import OrderReview
+from . models import OrderReview, Order
 from django.utils.timezone import timedelta, datetime
 
 class OrderReviewForm(forms.ModelForm):
@@ -19,3 +19,21 @@ class OrderReviewForm(forms.ModelForm):
             'order': forms.HiddenInput(),
             'reviewer': forms.HiddenInput(),
         }
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class UserOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('car', 'due_back', )
+        widgets = {'due_back': DateInput()}
+
+
+class UserOrderUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('car', 'due_back', )
+        widgets = {'due_back': DateInput(), 'car':forms.HiddenInput()}
